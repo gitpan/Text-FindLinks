@@ -1,0 +1,14 @@
+Changes
+lib/Text/FindLinks.pm
+Makefile.PL
+MANIFEST
+META.yml
+README
+t/00-load.t
+t/boilerplate.t
+t/decorate.t
+t/find.t
+t/kwalitee.t
+t/markup.t
+t/pod-coverage.t
+t/pod.t
