@@ -1,3 +1,7 @@
+0.03    9/26/2009
+        - Attempted to fix the encoding problems in POD.
+        - Argument validation using Params::Validate.
+
 0.02    9/24/2009, minutes later
         Removed the Devel::REPL dependency I forgot in
         the previous release.

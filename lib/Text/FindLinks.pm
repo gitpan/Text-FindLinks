@@ -1,5 +1,7 @@
 package Text::FindLinks;
 
+=encoding utf8
+
 =head1 NAME
 
 Text::FindLinks - Find and markup URLs in plain text
@@ -9,10 +11,11 @@ Text::FindLinks - Find and markup URLs in plain text
 use warnings;
 use strict;
 use Exporter;
+use Params::Validate qw/validate CODEREF/;
 
 our @ISA = 'Exporter';
 our @EXPORT_OK = qw/find_links markup_links/;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -37,9 +40,20 @@ to the URL and skips URLs already turned into links.
 
 sub markup_links
 {
+    validate(@_,
+    {
+        text    => 1,
+        handler =>
+        {
+            type     => CODEREF,
+            optional => 1,
+        },
+    });
+
     my %args = @_;
     my $text = $args{'text'};
     my $decorator = $args{'handler'} || \&decorate_link;
+
     $text =~ s{(
         (
             (((https?)|(ftp))://)   # either a schema...
@@ -49,6 +63,7 @@ sub markup_links
         (?<![,.;?!])                # must not end with given characters
         )}
         {&$decorator($1, $`, $')}gex;
+
     return $text;
 }
 
@@ -62,6 +77,7 @@ sources.
 
 sub find_links
 {
+    validate(@_, { text => 1 });
     my %args = @_;
     my @links;
     markup_links(
